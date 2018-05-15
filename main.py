@@ -1,41 +1,32 @@
-"""
-2-input XOR example -- this is most likely the simplest possible example.
-"""
-
 from __future__ import print_function
 import os
 import neat
 import visualize
 import gym
-import random
-import numpy as np
-import tflearn
-from tflearn.layers.core import input_data, dropout, fully_connected
-from tflearn.layers.estimator import regression
-from statistics import median, mean
-from collections import Counter
-
 
 env = gym.make("CartPole-v0")
 
+def get_fitness(net):
+    fitness = 0.
+    
+    env.reset()
+    observation = [0,0,0,0]
+    while True:
+        def get_action(observation):
+            action_array = net.activate(observation)
+            go_to_right = int(action_array[0] > 0.5)
+            return go_to_right
+        
+        observation, reward, done, _ = env.step(get_action(observation))
+        fitness += reward
+        if done: break
+    return fitness
 
 def eval_genomes(genomes, config):
     for _, genome in genomes:
         genome.fitness = 0.
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        
-        env.reset()
-        observation = [0,0,0,0]
-        while True:
-            def get_action(observation):
-                print(observation)
-                action_array = net.activate(observation)
-                go_to_right = int(action_array[0] > 0.5)
-                return go_to_right
-            
-            observation, reward, done, _ = env.step(get_action(observation))
-            genome.fitness += reward
-            if done: break
+        genome.fitness = get_fitness(net)
 
 
 def run(config_file):
