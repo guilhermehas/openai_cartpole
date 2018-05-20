@@ -49,7 +49,7 @@ def run(config_file):
 
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
-    
+
     '''
     # Show output of the most fit genome against training data.
     print('\nOutput:')
@@ -66,7 +66,6 @@ def run(config_file):
     p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     p.run(eval_genomes, 10)
     '''
-    
 
 if __name__ == '__main__':
     # Determine path to configuration file. This path manipulation is
