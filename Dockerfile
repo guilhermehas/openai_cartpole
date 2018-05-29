@@ -2,7 +2,9 @@ FROM kennethreitz/pipenv
 
 COPY . /app
 
-RUN apt-get install python3.6-tk -y
+ENV TZ=America/Los_Angeles
+RUN apt install dialog -y
+RUN apt install python3.6-tk -y
 
 RUN pipenv update
 
