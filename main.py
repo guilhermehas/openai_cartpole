@@ -6,18 +6,17 @@ import gym
 
 env = gym.make("CartPole-v0")
 
+def get_action_from(observation, net):
+    action_array = net.activate(observation)
+    go_to_right = int(action_array[0] > 0.5)
+    return go_to_right
+
 def get_fitness(net):
     fitness = 0.
-    
     env.reset()
     observation = [0,0,0,0]
     while True:
-        def get_action(observation):
-            action_array = net.activate(observation)
-            go_to_right = int(action_array[0] > 0.5)
-            return go_to_right
-        
-        observation, reward, done, _ = env.step(get_action(observation))
+        observation, reward, done, _ = env.step(get_action_from(observation, net=net))
         fitness += reward
         if done: break
     return fitness
@@ -27,6 +26,20 @@ def eval_genomes(genomes, config):
         genome.fitness = 0.
         net = neat.nn.FeedForwardNetwork.create(genome, config)
         genome.fitness = get_fitness(net)
+
+
+def visualize_in_action(net):
+    env.reset()
+    observation = [0,0,0,0]
+    for _ in range(10**4):
+        env.render()
+        
+        action = get_action_from(observation, net)
+        observation, _, done, _ = env.step(action)
+
+        if done: break
+    
+    env.close()
 
 
 def run(config_file):
@@ -49,23 +62,13 @@ def run(config_file):
 
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
-
-    '''
+    
     # Show output of the most fit genome against training data.
     print('\nOutput:')
     winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
-    for xi, xo in zip(xor_inputs, xor_outputs):
-        output = winner_net.activate(xi)
-        print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output))
-
-    node_names = {-1:'A', -2: 'B', 0:'A XOR B'}
-    visualize.draw_net(config, winner, True, node_names=node_names)
-    visualize.plot_stats(stats, ylog=False, view=True)
-    visualize.plot_species(stats, view=True)
-
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    p.run(eval_genomes, 10)
-    '''
+    print(f'\nFitness winner: {get_fitness(winner_net)}')
+    visualize_in_action(winner_net)
+    
 
 if __name__ == '__main__':
     # Determine path to configuration file. This path manipulation is
