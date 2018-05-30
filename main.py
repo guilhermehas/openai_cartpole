@@ -3,43 +3,16 @@ import os
 import neat
 import visualize
 import gym
+from genome import Genome
 
 env = gym.make("CartPole-v0")
-
-def get_action_from(observation, net):
-    action_array = net.activate(observation)
-    go_to_right = int(action_array[0] > 0.5)
-    return go_to_right
-
-def get_fitness(net):
-    fitness = 0.
-    env.reset()
-    observation = [0,0,0,0]
-    while True:
-        observation, reward, done, _ = env.step(get_action_from(observation, net=net))
-        fitness += reward
-        if done: break
-    return fitness
 
 def eval_genomes(genomes, config):
     for _, genome in genomes:
         genome.fitness = 0.
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        genome.fitness = get_fitness(net)
-
-
-def visualize_in_action(net):
-    env.reset()
-    observation = [0,0,0,0]
-    for _ in range(10**4):
-        env.render()
-        
-        action = get_action_from(observation, net)
-        observation, _, done, _ = env.step(action)
-
-        if done: break
-    
-    env.close()
+        gen = Genome(net)
+        genome.fitness = gen.get_fitness()
 
 
 def run(config_file):
@@ -66,8 +39,9 @@ def run(config_file):
     # Show output of the most fit genome against training data.
     print('\nOutput:')
     winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
-    print(f'\nFitness winner: {get_fitness(winner_net)}')
-    visualize_in_action(winner_net)
+    genome = Genome(winner_net)
+    print(f'\nFitness winner: {genome.get_fitness()}')
+    genome.visualize()
     
 
 if __name__ == '__main__':
