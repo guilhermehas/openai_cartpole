@@ -1,6 +1,5 @@
 import gym
 
-
 env = gym.make("CartPole-v0")
 
 class Genome:
@@ -25,7 +24,8 @@ class Genome:
             observation, reward, done, _ = env.step(action)
             fitness += reward
             if done: break
-        
+    
+
         env.close()
         return fitness
     

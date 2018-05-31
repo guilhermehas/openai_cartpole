@@ -5,9 +5,8 @@ COPY . /app
 ENV DEBIAN_FRONTEND=noninteractive
 
 ENV TZ=America/Los_Angeles
-RUN apt install dialog -y
-RUN apt install python3.6-tk -y
+RUN apt install dialog python3.6-tk python-opengl xvfb -y
 
 RUN pipenv update
 
-CMD pipenv run python main.py
+CMD pipenv run xvfb-run -s "-screen 0 1400x900x24" python main.py

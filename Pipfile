@@ -8,6 +8,7 @@ neat-python = "*"
 gym = "*"
 graphviz = "*"
 matplotlib = "*"
+pyopengl = "*"
 
 [dev-packages]
 

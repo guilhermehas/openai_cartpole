@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6afa8a8c6f6475533eb7c6bd5ebcc9ec81bf43f85d8ee4065086413c49bd74fe"
+            "sha256": "3890addd12a4793b04c1153048bc2629ad4be3986ade58ef418cf985af6f1add"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -159,6 +159,15 @@
                 "sha256:b00570e7cdf6971af8953b6ece50d83d13272afa5d1f1197c58c0f478dd17743"
             ],
             "version": "==1.3.2"
+        },
+        "pyopengl": {
+            "hashes": [
+                "sha256:5b3a14a4e4c87cf25ca41bc5878583df0e434624b13fcc55d1a672f79ad1b76f",
+                "sha256:9b47c5c3a094fa518ca88aeed35ae75834d53e4285512c61879f67a48c94ddaf",
+                "sha256:efa4e39a49b906ccbe66758812ca81ced13a6f26931ab2ba2dba2750c016c0d0"
+            ],
+            "index": "pypi",
+            "version": "==3.1.0"
         },
         "pyparsing": {
             "hashes": [
