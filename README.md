@@ -39,3 +39,4 @@ Output:
 
 Fitness winner: 200.0
 ```
+![Alt Text](https://raw.githubusercontent.com/guilhermehas/openai_cartpole/master/openai_gym.gif)
